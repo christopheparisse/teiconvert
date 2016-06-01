@@ -1,0 +1,137 @@
+@UTF8
+@Begin
+@Languages:	fra
+@Participants:	ortho ortho Unidentified
+@ID:	fra|unspecified|ortho|||||Unidentified|||
+@Media:	FOR_LEC.TextGrid--26-05-2016-04-01-50, video
+@Location:	ici donc quoi !
+@Comment:	[] 
+	ortho
+	-
+	none
+@Comment:	[code] ortho
+@Comment:	[type] -
+@Comment:	[parent] none
+@Comment:	[] 
+	words
+	Time_Subdivision
+	ortho
+@Comment:	[code] words
+@Comment:	[type] Time_Subdivision
+@Comment:	[parent] ortho
+@Comment:	[] 
+	syll
+	Time_Subdivision
+	ortho
+@Comment:	[code] syll
+@Comment:	[type] Time_Subdivision
+@Comment:	[parent] ortho
+@Comment:	[] 
+	phones
+	Time_Subdivision
+	syll
+@Comment:	[code] phones
+@Comment:	[type] Time_Subdivision
+@Comment:	[parent] syll
+@Comment:	ortho xml:id: ortho
+@G:
+*ortho:	La < campagne > accélérée d’un "mot" & un autre.1470_2620
+%words:	la
+%words:	campagne
+%words:	accélérée
+%syll:	la l a
+%syll:	l
+%syll:	a
+%syll:	ka~ k a~
+%syll:	k
+%syll:	a~
+%syll:	pa p a
+%syll:	p
+%syll:	a
+%syll:	njak n j a k
+%syll:	n
+%syll:	j
+%syll:	a
+%syll:	k
+%syll:	se s e
+%syll:	s
+%syll:	e
+%syll:	le l e
+%syll:	l
+%syll:	e
+%syll:	Re R e
+%syll:	R
+%syll:	e
+*ortho:	_.2620_3252
+%words:	_
+%syll:	_ _
+%syll:	_
+*ortho:	C'est parti, pour sa quatrième campagne présidentielle !3252_5848
+%words:	c'
+%words:	est
+%words:	parti
+%words:	pour
+%words:	sa
+%words:	quatrième
+%words:	campagne
+%words:	présidentielle
+%syll:	sE s E
+%syll:	s
+%syll:	E
+%syll:	paR p a R
+%syll:	p
+%syll:	a
+%syll:	R
+%syll:	ti t i
+%syll:	t
+%syll:	i
+%syll:	puR p u R
+%syll:	p
+%syll:	u
+%syll:	R
+%syll:	sa s a
+%syll:	s
+%syll:	a
+%syll:	ka k a
+%syll:	k
+%syll:	a
+%syll:	tRi t R i
+%syll:	t
+%syll:	R
+%syll:	i
+%syll:	jE j E
+%syll:	j
+%syll:	E
+%syll:	m@ m @
+%syll:	m
+%syll:	@
+%syll:	ka~ k a~
+%syll:	k
+%syll:	a~
+%syll:	pa p a
+%syll:	p
+%syll:	a
+%syll:	nj@ n j @
+%syll:	n
+%syll:	j
+%syll:	@
+%syll:	pRe p R e
+%syll:	p
+%syll:	R
+%syll:	e
+%syll:	zi z i
+%syll:	z
+%syll:	i
+%syll:	da~ d a~
+%syll:	d
+%syll:	a~
+%syll:	sjEl s j E l
+%syll:	s
+%syll:	j
+%syll:	E
+%syll:	l
+*ortho:	_.5848_6055
+%words:	_
+%syll:	_ _
+%syll:	_
+@End
