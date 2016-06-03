@@ -56,16 +56,19 @@ function s2ab(s) {
 	return buf;
 }
 
-teiExportXlsx.teiToXlsx = function(datafrom) {
+teiExportXlsx.teiToXlsx = function(teiname, datafrom) {
+	var format = $('input:radio[name=paramxlsx]:checked').val();
+	var digits = $('#digitsxlsx').val();
+	if (!digits || digits<0 || digits>15) digits = 0;
 	var parser = new DOMParser();
 	var xml = parser.parseFromString(datafrom, "text/xml");
     trjs.template.readMediaInfo(xml);
 	var corpus = trjs.dataload.loadTEI(xml);
-	var s = teiExportXlsx.tableToXlsx(corpus);
+	var s = teiExportXlsx.tableToXlsx(teiname, corpus, digits, format);
 	return s;
 }
 
-teiExportXlsx.tableToXlsx = function(corpus, digits) {
+teiExportXlsx.tableToXlsx = function(teiname, corpus, digits, format) {
 	// creates a table with the transcription
 	// or try to simulate how generateArray works (what are the ranges)
 	//
@@ -79,23 +82,71 @@ teiExportXlsx.tableToXlsx = function(corpus, digits) {
 	// var data = oo[0];
 	var data = [];
 	var nb = 0;
-	var who, ts, te, row;
+	var who, ts, te, seconds;
+    var medianame = 'undefined';
+    if (trjs.data.media && trjs.data.media.length > 0)
+        medianame = trjs.data.media[0].loc + '/' + trjs.data.media[0].name;
+    
+    var lineOpened = false;
+    var divInfo = '';
+    var lastTiers = '';
+    var row = [];
 	for (var i=0; i<corpus.length; i++) {
 		// corpus : arrayof {loc: loc, ts: ts, te: te, tx: tx, type: ('loc' or 'prop')}
 		if (corpus[i].type === 'loc')
 			nb++;
-		if (corpus[i].type === 'div') {
-			row = [ corpus[i].loc, (corpus[i].ts !== '') ? teiConvertTools.precision(corpus[i].ts, digits) : '',
-			 	(corpus[i].te !== '') ? teiConvertTools.precision(corpus[i].te, digits) : '',
-				nolines((trjs.dataload.checkstring(corpus[i].tx) + ' | ' + trjs.dataload.checkstring(corpus[i].stx)).trim())];
-			data.push(row);
+        if (corpus[i].ts !== '') {
+            ts = teiConvertTools.precision(corpus[i].ts, digits);
+            seconds = Math.ceil(ts);
+        } else {
+            ts = '';
+            seconds = '';
+        }
+		if (corpus[i].type === 'div')
+            divInfo = nolines((trjs.dataload.checkstring(corpus[i].tx) + ' | ' + trjs.dataload.checkstring(corpus[i].stx)).trim());
+		if (corpus[i].type === 'loc') {
+            if (format.indexOf(';aligned;') >= 0) {
+                if (lineOpened === true)
+        			data.push(row);
+                row = [ medianame, seconds, teiname, divInfo, corpus[i].loc, ts,
+                    (corpus[i].te !== '') ? teiConvertTools.precision(corpus[i].te, digits) : '',
+                    nolines(corpus[i].tx.trim())];
+                lineOpened = true;
+            } else {
+                row = [ medianame, seconds, teiname, divInfo, corpus[i].loc, ts,
+                    (corpus[i].te !== '') ? teiConvertTools.precision(corpus[i].te, digits) : '',
+                    nolines(corpus[i].tx.trim())];
+                data.push(row);
+            }
 		} else {
-			row = [corpus[i].loc, (corpus[i].ts !== '') ? teiConvertTools.precision(corpus[i].ts, digits) : '',
-				(corpus[i].te !== '') ? teiConvertTools.precision(corpus[i].te, digits) : '',
-				nolines(corpus[i].tx.trim())];
-			data.push(row);
-		}
+            if (format.indexOf(';aligned;') >= 0) {
+                row.push(corpus[i].loc);
+                row.push(nolines(corpus[i].tx.trim()));
+            } else {
+                if (format.indexOf(';independent;') >= 0) {
+                    if (lastTiers === corpus[i].loc) {
+                        row.push(corpus[i].loc);
+                        row.push(nolines(corpus[i].tx.trim()));
+                    } else {
+                        if (lineOpened === true)
+                            data.push(row);
+                        row = [ medianame, seconds, teiname, divInfo, corpus[i].loc, ts,
+                            (corpus[i].te !== '') ? teiConvertTools.precision(corpus[i].te, digits) : '',
+                            nolines(corpus[i].tx.trim())];
+                        lineOpened = true;
+                    }
+                } else {
+                    row = [ medianame, seconds, teiname, divInfo, corpus[i].loc, ts,
+                        (corpus[i].te !== '') ? teiConvertTools.precision(corpus[i].te, digits) : '',
+                        nolines(corpus[i].tx.trim())];
+                    data.push(row);
+                }
+            }
+        }
+        lastTiers = corpus[i].loc;
 	}
+    if (lineOpened === true)
+        data.push(row);
 
 	var ranges = [];
 	var ws_name = "TEI_CORPO"; // finds a better name

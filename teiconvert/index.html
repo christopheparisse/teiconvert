@@ -153,6 +153,13 @@
     <input type="radio" name="ajoutsuppr" id="ajoutsuppr" value="suppr">Supprimer ces locuteurs/champs de la sortie<br/>
     Valeur du locuteur ou du champ (caractères génériques acceptés) <input type="text" name="ajoutsupprname" id="ajoutsupprname"><br/>
 </div>
+<div id="paramxlsx" class="param" onchange="teiconvert.setOptions();">
+    <input type="number" name="digitsxlsx" min="0" max="15" id="digitsxlsx"> Nombre de décimales pour les temps<br/>
+    <hr/>
+    <input type="radio" name="paramxlsx" value=";aligned;" checked>Une ligne par énoncé + tiers/dépendances à droite<br />
+    <input type="radio" name="paramxlsx" value=";independent;" checked>Enoncé seul sur une ligne, tiers/dépendances en dessous rassemblé par noms de tiers<br />
+    <input type="radio" name="paramxlsx" value=";database;" checked>Enoncé seul sur une ligne, tiers/dépendances en dessous, un seul élément par ligne<br />
+</div>
 <div id="paramdocx" class="param" onchange="teiconvert.setOptions();">
     <input type="number" name="digitsdocx" min="0" max="15" id="digitsdocx"> Nombre de décimales pour les temps<br/>
     <hr/>

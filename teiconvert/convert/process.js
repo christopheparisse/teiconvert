@@ -133,6 +133,10 @@ teiconvert.getOptions = function() {
     params = localStorage.getItem('paramsDocxOptions');
     radios.filter('[value="' + params + '"]').prop('checked', true);
 
+    radios = $('input:radio[name=paramxlsx]');
+    params = localStorage.getItem('paramsXlsxOptions');
+    radios.filter('[value="' + params + '"]').prop('checked', true);
+
     radios = $('input:radio[name=paramtxt]');
     params = localStorage.getItem('paramsTxtOptions');
     radios.filter('[value="' + params + '"]').prop('checked', true);
@@ -169,6 +173,8 @@ teiconvert.setOptions = function() {
     localStorage.setItem('paramsPraatOptions', teiconvert.praat.allow === true ? 'true' : 'false');
     var val = $('input:radio[name=paramdocx]:checked').val();
     localStorage.setItem('paramsDocxOptions', val);
+    var val = $('input:radio[name=paramxlsx]:checked').val();
+    localStorage.setItem('paramsXlsxOptions', val);
     val = $('input:radio[name=paramtxt]:checked').val();
     localStorage.setItem('paramsTxtOptions', val);
     val = $('input:radio[name=ajoutsuppr]:checked').val();
@@ -354,7 +360,7 @@ teiconvert.process_out = function(teiname, datafrom, destname, callback) {
                 callback1(0, result);
                 break;
             case '.xlsx':
-                result = teiExportXlsx.teiToXlsx(datafrom);
+                result = teiExportXlsx.teiToXlsx(teiname, datafrom);
                 // alert(result);
                 callback1(0, result);
                 break;
