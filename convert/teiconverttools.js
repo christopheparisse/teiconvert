@@ -942,6 +942,8 @@ function printUttDocx(who, ts, te, v, dec, nl, format) {
 }
 
 function printUttTxt(who, ts, te, tx, nb, style) {
+	if (style === 'raw')
+		return tx + '\n';
 	if (style === 'bloc')
 		return who.trim() + '\t' + ts + '\t' + te + '\t' + tx + '\n';
 	else
@@ -950,9 +952,11 @@ function printUttTxt(who, ts, te, tx, nb, style) {
 
 teiConvertTools.teiToText = function(data) {
 	var style = $('input:radio[name=paramtxt]:checked').val();
-	// style === bloc or line
+	// style === bloc or line or raw
 	var digits = $('#digitstxt').val();
 	if (!digits || digits<0 || digits>15) digits = 0;
+	var ajout = $('input:radio[name=ajoutsuppr]:checked').val();
+	var nomloc = $('#ajoutsupprname').val();
 	var parser = new DOMParser();
 	var xml = parser.parseFromString(data, "text/xml");
     trjs.template.readMediaInfo(xml);
@@ -962,12 +966,19 @@ teiConvertTools.teiToText = function(data) {
 	var s = ''; // future result
 	var nb = 0;
 	for (var i=0; i<corpus.length; i++) {
+		if (nomloc != '') {
+			if (ajout === 'ajout' && nomloc.indexOf(corpus[i].loc.trim()) < 0)
+				continue;
+			if (ajout === 'suppr' && nomloc.indexOf(corpus[i].loc.trim()) >= 0)
+				continue;
+		}
 		if (corpus[i].type === 'loc')
 			nb++;
-		if (corpus[i].type === 'div')
-			s += printUttTxt(corpus[i].loc.trim(), teiConvertTools.precision(corpus[i].ts, digits), teiConvertTools.precision(corpus[i].te, digits),
-				nolines((trjs.dataload.checkstring(corpus[i].type) + ' | ' + trjs.dataload.checkstring(corpus[i].subtype)).trim()), nb, style);
-		else
+		if (corpus[i].type === 'div') {
+			if (style !== 'raw')
+				s += printUttTxt(corpus[i].loc.trim(), teiConvertTools.precision(corpus[i].ts, digits), teiConvertTools.precision(corpus[i].te, digits),
+					nolines((trjs.dataload.checkstring(corpus[i].type) + ' | ' + trjs.dataload.checkstring(corpus[i].subtype)).trim()), nb, style);
+		} else
 			s += printUttTxt(corpus[i].loc.trim(), teiConvertTools.precision(corpus[i].ts, digits), teiConvertTools.precision(corpus[i].te, digits), nolines(corpus[i].tx.trim()), nb, style);
 	}
 	return s;
@@ -1126,11 +1137,32 @@ teiConvertTools.teiToDocxOverlap = function(utterances, format) {
 	return s;
 };
 
+function getUsers() {
+	var params = '';
+	var ajout = $('input:radio[name=ajoutsuppr]:checked').val();
+	var nomloc = $('#ajoutsupprname').val();
+	if (nomloc != '') {
+		if (ajout === 'ajout') {
+			var re = /\s+/;
+			var nameList = nomloc.split(re);
+			for (var i in nameList)
+				params += ' -a ' + nameList[i];
+		} else if (ajout === 'suppr') {
+			var re = /\s+/;
+			var nameList = nomloc.split(re);
+			for (var i in nameList)
+				params += ' -s ' + nameList[i];
+		}
+	}
+	return params;
+}
+
 teiConvertTools.teiToTxm = function(teiname, destname, datafrom, callback1) {
 	var params = " ";
 	var valCT = $('input:checkbox[name=cleanline]:checked').val();
 	if (valCT === 'on')
 		params += ' -cleanline';
+	params += getUsers();
 	var ul = $('#tvul').children();
 	for (var i=0; i < ul.length; i++) {
 		var ptype = $(ul[i]).find('span.spantvtype').text();
@@ -1138,6 +1170,7 @@ teiConvertTools.teiToTxm = function(teiname, destname, datafrom, callback1) {
 		params += ' ' + '-tv';
 		params += ' ' + ptype + ':' + pvaleur;
 	}
+	alert(params);
 	system.call.teiToTxm(teiname, destname, datafrom, params, callback1);
 }
 
@@ -1149,6 +1182,7 @@ teiConvertTools.teiToLexico = function(teiname, destname, datafrom, callback1) {
 	var valSec = $('input:checkbox[name=sectionlex]:checked').val();
 	if (valSec === 'on')
 		params += ' -section';
+	params += getUsers();
 	var ul = $('#tvul').children();
 	for (var i=0; i < ul.length; i++) {
 		var ptype = $(ul[i]).find('span.spantvtype').text();

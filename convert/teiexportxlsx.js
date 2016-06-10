@@ -77,6 +77,18 @@ teiExportXlsx.tableToXlsx = function(teiname, corpus, digits, format) {
 	// var ranges = oo[1];
 	//
 	if (!digits || digits<0 || digits>15) digits = 5;
+	var ajout = $('input:radio[name=ajoutsuppr]:checked').val();
+	var nomloc = $('#ajoutsupprname').val();
+    var nameList = [];
+	if (nomloc != '') {
+		if (ajout === 'ajout') {
+			var re = /\s+/;
+			nameList = nomloc.split(re);
+		} else if (ajout === 'suppr') {
+			var re = /\s+/;
+			nameList = nomloc.split(re);
+		}
+	}
 
 	// original data
 	// var data = oo[0];
@@ -91,8 +103,30 @@ teiExportXlsx.tableToXlsx = function(teiname, corpus, digits, format) {
     var divInfo = '';
     var lastTiers = '';
     var row = [];
+    var inLoc = true;
 	for (var i=0; i<corpus.length; i++) {
 		// corpus : arrayof {loc: loc, ts: ts, te: te, tx: tx, type: ('loc' or 'prop')}
+		if (nameList.length > 0) {
+            if (corpus[i].type === 'loc') {
+                if (ajout === 'ajout' && nameList.indexOf(corpus[i].loc.trim()) < 0) {
+                    inLoc = false;
+                    continue;
+                }
+                if (ajout === 'suppr' && nameList.indexOf(corpus[i].loc.trim()) >= 0) {
+                    inLoc = false;
+                    continue;
+                }
+                inLoc = true;
+            } else {
+                if (inLoc === false) continue;
+                if (ajout === 'ajout' && nameList.indexOf(corpus[i].loc.trim()) < 0) {
+                    continue;
+                }
+                if (ajout === 'suppr' && nameList.indexOf(corpus[i].loc.trim()) >= 0) {
+                    continue;
+                }
+            }
+		}
 		if (corpus[i].type === 'loc')
 			nb++;
         if (corpus[i].ts !== '') {

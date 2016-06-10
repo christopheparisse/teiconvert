@@ -1317,7 +1317,7 @@ function saveTEIHeaderToString() {
 		var iname = trjs.dataload.checkstring(trjs.events.lineGetCell( $(tablelines[i]), 1));
 		var ict = trjs.dataload.checkstring(trjs.events.lineGetCell( $(tablelines[i]), 2));
 		var idesc = trjs.dataload.checkstring(trjs.events.lineGetCell( $(tablelines[i]), 3));
-		if (icode=='' && itype==='' && ipar==='' && idesc=='') continue;
+		if (icode=='' && itype==='' && ict==='' && idesc=='') continue;
 		s += '<note>\n';
 		s += '<note type="code">' + icode + '</note>\n';
 		s += '<note type="contentType">' + ict + '</note>\n';
@@ -1334,7 +1334,7 @@ function saveTEIHeaderToString() {
 		// var iname = trjs.dataload.checkstring(trjs.events.lineGetCell( $(tablelines[i]), 3));
 		var ict = trjs.dataload.checkstring(trjs.events.lineGetCell( $(tablelines[i]), 4));
 		var idesc = trjs.dataload.checkstring(trjs.events.lineGetCell( $(tablelines[i]), 5));
-		if (icode=='' && itype==='' && ipar==='' && idesc=='') continue;
+		if (icode=='' && itype==='' && ict==='' && idesc=='') continue;
 		s += '<note>\n';
 		s += '<note type="code">' + icode + '</note>\n';
 		s += '<note type="type">' + itype + '</note>\n';
