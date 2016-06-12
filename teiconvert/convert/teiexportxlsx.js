@@ -56,6 +56,31 @@ function s2ab(s) {
 	return buf;
 }
 
+teiExportXlsx.teiToCsv = function(teiname, datafrom) {
+	var format = $('input:radio[name=paramxlsx]:checked').val();
+	var digits = $('#digitsxlsx').val();
+	if (!digits || digits<0 || digits>15) digits = 0;
+	var parser = new DOMParser();
+	var xml = parser.parseFromString(datafrom, "text/xml");
+    trjs.template.readMediaInfo(xml);
+	var corpus = trjs.dataload.loadTEI(xml);
+	var s = teiExportXlsx.tableToCsv(teiname, corpus, digits, format);
+	return s;
+}
+
+teiExportXlsx.tableToCsv = function(teiname, corpus, digits, format) {
+    var data = tableToData(teiname, corpus, digits, format);
+
+    var s = '';
+    for (var i=0; i < data.length; i++) {
+        var row = data[i];
+        for (var j=0; j < row.length-1; j++)
+            s += row[j] + '\t';
+        s += row[j] + '\n';
+    }
+	return s;
+}
+
 teiExportXlsx.teiToXlsx = function(teiname, datafrom) {
 	var format = $('input:radio[name=paramxlsx]:checked').val();
 	var digits = $('#digitsxlsx').val();
@@ -68,7 +93,7 @@ teiExportXlsx.teiToXlsx = function(teiname, datafrom) {
 	return s;
 }
 
-teiExportXlsx.tableToXlsx = function(teiname, corpus, digits, format) {
+var tableToData = function(teiname, corpus, digits, format) {
 	// creates a table with the transcription
 	// or try to simulate how generateArray works (what are the ranges)
 	//
@@ -96,8 +121,12 @@ teiExportXlsx.tableToXlsx = function(teiname, corpus, digits, format) {
 	var nb = 0;
 	var who, ts, te, seconds;
     var medianame = 'undefined';
-    if (trjs.data.media && trjs.data.media.length > 0)
-        medianame = trjs.data.media[0].loc + '/' + trjs.data.media[0].name;
+    if (trjs.data.media && trjs.data.media.length > 0) {
+        if (trjs.data.media[0].loc && trjs.data.media[0].loc !== '.')
+            medianame = trjs.data.media[0].loc + '/' + trjs.data.media[0].name;
+        else
+            medianame = trjs.data.media[0].name;
+    }
     
     var lineOpened = false;
     var divInfo = '';
@@ -181,6 +210,11 @@ teiExportXlsx.tableToXlsx = function(teiname, corpus, digits, format) {
 	}
     if (lineOpened === true)
         data.push(row);
+    return data;
+}
+
+teiExportXlsx.tableToXlsx = function(teiname, corpus, digits, format) {
+    var data = tableToData(teiname, corpus, digits, format);
 
 	var ranges = [];
 	var ws_name = "TEI_CORPO"; // finds a better name

@@ -110,7 +110,7 @@ teiconvert.paramsOutDisp = function() {
         $('#paramxlsx').hide();
         $('#paramtxmlexico').hide();
         $('#paramtall').show();
-    } else if (val === 'xlsx') {
+    } else if (val === 'xlsx' || val === 'csv') {
         $('#paramdocx').hide();
         $('#paramtxt').hide();
         $('#paramxlsx').show();
@@ -361,6 +361,11 @@ teiconvert.process_out = function(teiname, datafrom, destname, callback) {
                 break;
             case '.xlsx':
                 result = teiExportXlsx.teiToXlsx(teiname, datafrom);
+                // alert(result);
+                callback1(0, result);
+                break;
+            case '.csv':
+                result = teiExportXlsx.teiToCsv(teiname, datafrom);
                 // alert(result);
                 callback1(0, result);
                 break;
