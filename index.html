@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!-- tei_corpo.js (C) 2015-2016 Tei_Corpo http://modyco.inist.fr/teicorpo/ -->
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.ico" />
+<script src="lib/jquery.min.js"></script>
+<script src="lib/filesaver.js"></script>
+<script src="lib/html-docx.js"></script>
+<script src="lib/jszip.js"></script>
+<script src="lib/xlsx_array.js"></script>
+<script src="lib/encoder.js"></script>
+<script src="trjs/dataload.js"></script>
+<script src="trjs/data.js"></script>
+<script src="trjs/templates.js"></script>
+<script src="trjs/utils.js"></script>
+<script src="convert/process.js"></script>
+<script src="convert/teiconverttools.js"></script>
+<script src="convert/teiexportxlsx.js"></script>
+<script src="convert/teidocx.js"></script>
+<script src="system/systemLocal.js"></script>
+<script src="system/systemCall.js"></script>
+<title>TEI_CORPO / Conversions corpus oraux et TEI</title>
+<style>
+#drop{
+	border:2px dashed #bbb;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	padding: 10px;
+	margin: 10px;
+	text-align:center;
+	font:20pt bold,"Vollkorn";color:#888
+}
+#result {
+	border: 2px solid #555;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	margin-top: 5px;
+	padding:10px;
+}
+#footer {
+	font-size: x-small;
+}
+#bandeau {
+    background: #aaa;
+    width:100%;
+    text-align:center;
+    font-size: large;
+}
+#dest {
+	border: 2px solid #222;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	padding:10px;
+}
+#source {
+	border: 1px solid #00F;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	padding:10px;
+}
+#choixdest {
+    font-size: 130%;
+    font-weight: bold;
+}
+#choixsource {
+    font-size: 130%;
+    font-weight: bold;
+}
+.param {
+    display: none;
+	border:1px solid #444;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	margin-top: 5px;
+	padding:10px;
+}
+#praatajoutrelation {
+    background: #28F;
+    height: 2em;
+}
+#praatgo {
+    background: #28F;
+    height: 2em;
+    margin-top: 10px;
+}
+#praatrules p {
+    margin: 0;
+}
+#praatrules p .rl, .rm, .rd {
+    margin: 0px 5px 0px 5px;
+}
+#praatrules p .rm {
+    font-style: italic;
+}
+#praatresp {
+    margin-top: 10px;
+}
+#paramtall {
+    display: block;
+}
+#tvlist {
+    display: none;
+}
+#spantvtype {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#spantvvaleur {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+</style>
+</head>
+<body>
+<div id="bandeau"><a href="http://ircom.huma-num.fr/site/accueil.php"><img src="logo.gif" height="50" width="50" /> IRCOM</a>
+ <a href="http://www.ortolang.fr"><img src="ortolang.png" height="50" width="65" /> ORTOLANG</a>
+ <a href="http://www.tei-c.org/index.xml"><img src="tei.png" height="50" width="50" /> TEI</a></div>
+<h2>Conversions au format TEI pour l'Oral et le Multimodal</h2>
+<p>Ce format suit les propositions du GT2 IRCOM et du groupe TEI Oral ISO.
+  Il est conforme au standard TEI. Un outil java pour le traitement par lot
+  peut être directement téléchargé <a href="http://ct3.ortolang.fr/tei-corpo/conversions.jar">ici</a>.
+  Plus d'informations sont disponibles sur cette <a href="http://ct3.ortolang.fr/tei-corpo">page</a>.</p>
+<div id="dest">
+<!-- <b>Format Destination (TRS/CHA/TXT/DOCX/XLSX/CSV)</b><br /> -->
+<span id="choixdest">1) Choisir le Format Destination</span><br/>
+<input type="radio" name="format" value="tei" onchange="teiconvert.paramsOutDisp();" checked> TEI (xml / tei_corpo.xml / teiml / trjs)<br />
+<input type="radio" name="format" value="trs" onchange="teiconvert.paramsOutDisp();"> TRS (transcriber)<br />
+<input type="radio" name="format" value="cha" onchange="teiconvert.paramsOutDisp();"> CHA (chat - childes)<br />
+<input type="radio" name="format" value="txt" onchange="teiconvert.paramsOutDisp();"> TXT (texte - utf8)<br />
+<input type="radio" name="format" value="docx" onchange="teiconvert.paramsOutDisp();"> DOCX (microsoft word)<br />
+<input type="radio" name="format" value="xlsx" onchange="teiconvert.paramsOutDisp();"> XLSX (microsoft excel)<br />
+<input type="radio" name="format" value="csv" onchange="teiconvert.paramsOutDisp();"> CSV (tableurs)<br />
+<input type="radio" name="format" value="textgrid" onchange="teiconvert.paramsOutDisp();"> TEXTGRID (praat)<br />
+<input type="radio" name="format" value="eaf" onchange="teiconvert.paramsOutDisp();"> EAF (elan)<br />
+<input type="radio" name="format" value="txm" onchange="teiconvert.paramsOutDisp();"> TXM (xml/w)<br />
+<input type="radio" name="format" value="lexico" onchange="teiconvert.paramsOutDisp();"> Lexico/Le Trameur (.txt)<br />
+<!--
+<input type="radio" name="format" value="csv" > CSV (comma separated values - utf8)<br />
+<input type="radio" name="format" value="exb"> EXB<br />
+-->
+</div>
+<div id="paramtall" class="param" onchange="teiconvert.setOptions();">
+    <!--
+	     :-a name : le locuteur/champ name est produit en sortie (caractères génériques acceptés)
+	     :-s name : le locuteur/champ name est suprimé de la sortie (caractères génériques acceptés)
+    -->
+    <input type="radio" name="ajoutsuppr" id="ajoutsuppr" value="ajout" checked>Conserver ces locuteurs/champs dans la sortie<br/>
+    <input type="radio" name="ajoutsuppr" id="ajoutsuppr" value="suppr">Supprimer ces locuteurs/champs de la sortie<br/>
+    Valeur du locuteur ou du champ (caractères génériques acceptés) <input type="text" name="ajoutsupprname" id="ajoutsupprname"><br/>
+</div>
+<div id="paramxlsx" class="param" onchange="teiconvert.setOptions();">
+    <input type="number" name="digitsxlsx" min="0" max="15" id="digitsxlsx"> Nombre de décimales pour les temps<br/>
+    <hr/>
+    <input type="radio" name="paramxlsx" value=";aligned;" checked>Une ligne par énoncé + tiers/dépendances à droite<br />
+    <input type="radio" name="paramxlsx" value=";independent;" checked>Enoncé seul sur une ligne, tiers/dépendances en dessous rassemblé par noms de tiers<br />
+    <input type="radio" name="paramxlsx" value=";database;" checked>Enoncé seul sur une ligne, tiers/dépendances en dessous, un seul élément par ligne<br />
+</div>
+<div id="paramdocx" class="param" onchange="teiconvert.setOptions();">
+    <input type="number" name="digitsdocx" min="0" max="15" id="digitsdocx"> Nombre de décimales pour les temps<br/>
+    <hr/>
+    <input type="radio" name="paramdocx" value=";table;time0;" checked>Format texte: n° - Loc - Enoncé (version tableau)<br />
+    <input type="radio" name="paramdocx" value=";table;time1;" checked>Format texte: n° - Loc - Enoncé - Temps début (version tableau)<br />
+    <input type="radio" name="paramdocx" value=";table;time2;" checked>Format texte: n° - Loc - Enoncé - Temps début et fin (version tableau)<br />
+    <hr/>
+	<input type="radio" name="paramdocx" value=";tab;time0;">Format texte: n° - Loc - Enoncé (version tabulation)<br />
+	<input type="radio" name="paramdocx" value=";tab;time1;">Format texte: Temps début - Loc - Enoncé - (version tabulation)<br />
+	<input type="radio" name="paramdocx" value=";tab;time2;">Format texte: Temps début et fin - Loc - Enoncé (version tabulation)<br />
+	<input type="radio" name="paramdocx" value=";tab;time2;header;">Format texte: Temps début et fin - Loc - Enoncé (version tabulation) + Header (pour correction orthographique)<br />
+    <hr/>
+    <input type="radio" name="paramdocx" value=";tab;overlap;utt;">Format chevauchements: Loc - Enoncés<br />
+    <input type="radio" name="paramdocx" value=";tab;overlap;turn;">Format chevauchements: Loc - Tour de parole<br />
+</div>
+<div id="paramtxt" class="param" onchange="teiconvert.setOptions();">
+    <input type="number" name="digitstxt" min="0" max="15" id="digitstxt"> Nombre de décimales pour les temps<br/>
+    <hr/>
+    <input type="radio" name="paramtxt" value="bloc" checked>Format par bloc: Loc - Temps - Enoncé<br />
+    <input type="radio" name="paramtxt" value="line">Format par ligne: n° - Loc - Enoncé - Temps<br />
+    <input type="radio" name="paramtxt" value="raw">Texte sans aucune marque<br />
+</div>
+<div id="paramxlsx" class="param" onchange="teiconvert.setOptions();">
+    <input type="number" name="digitsxlsx" min="0" max="15" id="digitsxlsx"> Nombre de décimales pour les temps<br/>
+    <hr/>
+    <!--
+    <input type="radio" name="paramxlsx" value="std" checked>Format Loc - Temps - Enoncé<br />
+    <input type="radio" name="paramxlsx" value="macro">Format Macro Media + Loc - Temps - Enoncé<br />
+    -->
+</div>
+<div id="paramtxmlexico" class="param" onchange="teiconvert.setOptions();">
+    <!--
+	     :-tv "type:valeur" : un champ type:valeur est ajouté dans les <w> de txm ou lexico ou le trameur
+	     :-section : ajoute un indicateur de section en fin de chaque énoncé (pour lexico/le trameur)
+    -->
+    <button onclick="teiconvert.setOptionsTxm();">Ajouter un champ type/valeur</button> - Type:<input type="text" id="tvtype" value=""> Valeur:<input type="text" id="tvvaleur" value=""><br />
+    <div id="tvlist"><ul id="tvul"></ul></div>
+    <input type="checkbox" name="sectionlex">Ajoute un indicateur de section en fin de chaque énoncé (pour lexico/le trameur)<br />
+    <input type="checkbox" name="cleanline">Supprimer les marqueurs spécifiques de l'oral<br />
+</div>
+<br />
+<!-- <b>Fichier source (TRS/CHA/TEXTGRID/EAF/TXT/DOCX/XLSX/CSV)</b><br /> -->
+<div id="source">
+<span id="choixsource"><b>2) Choisir le Fichier source (extension: TRS/CHA/TEXTGRID/EAF/TXT/DOCX/XLSX)</b></span><br />
+<div id="drop">Faire glisser ici un (ou plusieurs) fichier(s)</div>
+<p><b>Ou cliquer ici pour sélectionner un fichier => </b><input type="file" name="fromfile" id="fromf" onchange="system.openLocalFile(event)" multiple/></p>
+<input type="checkbox" name="praatoptions" checked onclick="teiconvert.allowTextgridOptions();"/>Demander les paramètres pour les fichiers praat.<br />
+</div>
+<div id="paramspraat" class="param">
+    <input type="checkbox" name="praatskip" checked onclick="teiconvert.skipTextgridOptions();"/>Si plusieurs fichiers traités, utiliser les mêmes paramètres praat pour les autres fichiers.<br />
+    <hr />
+    <span>Choix des relations pour </span><span id="fnpraat"></span>
+    <div id="praatlist" class="param"></div>
+    <div id="praatresp"><span>Relations choisies</span></div>
+    <div id="praatrules" class="param"></div>
+    <input id="praatgo" type="button" name="praatgo" onclick="teiconvert.actionTextGrid();" value="Démarrer la conversion"/> <i>(la sélection de paramètres n'est pas obligatoire)</i>
+    <input type="button" name="praatreset" onclick="teiconvert.resetTextGrid();" value="Supprimer tous les paramètres"/>
+</div>
+<br/><span id="resultinfo">Résultats</span> <span id="resultclear" onclick="$('#result').html('');">(Effacer)</span><br />
+<div><ul id="result"></ul></div>
+<p id="footer">Version du 15-06-2016 - Licence <a href="http://creativecommons.org/licenses/by/3.0/">CC+BY</a>
+ et <a href="http://www.opensource.org/licenses/BSD-2-Clause">BSD 2</a>
+ - Auteurs: Christophe Parisse et Myriam Majdoub</p>
+<p id="messages"></p>
+<script>
+	system.initDrop();
+    teiconvert.getOptions();
+    teiconvert.paramsOutDisp();
+</script>
+</body>
+</html>
