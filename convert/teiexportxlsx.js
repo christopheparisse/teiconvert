@@ -171,9 +171,14 @@ var tableToData = function(teiname, corpus, digits, format) {
             if (format.indexOf(';aligned;') >= 0) {
                 if (lineOpened === true)
         			data.push(row);
+                var sx = nolines(corpus[i].tx.trim());
+                var sxx = teiConvertTools.cleanChat(sx).trim();
+                var spxx = sxx.split(/\s+/);
+                var nsxx = spxx.length;
+                if (nsxx > 0 && ".!?+".indexOf(spxx[nsxx-1].substr(0,1)) >= 0) nsxx--;
                 row = [ medianame, seconds, teiname, divInfo, corpus[i].loc, ts,
                     (corpus[i].te !== '') ? teiConvertTools.precision(corpus[i].te, digits) : '',
-                    nolines(corpus[i].tx.trim())];
+                    sx, sxx, nsxx];
                 lineOpened = true;
             } else {
                 row = [ medianame, seconds, teiname, divInfo, corpus[i].loc, ts,

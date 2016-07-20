@@ -17,6 +17,30 @@ if (typeof window === 'undefined') {
 
 var teiConvertTools = {};
 
+teiConvertTools.cleanChat = function(l) {
+    l = l.replace( /\([.\\d]\)/, "" );
+    l = l.replace( "\(", "" );
+    l = l.replace( "\)", "" );
+    l = l.replace( /\[.*\]/, "" );
+    l = l.replace( "\x01", "" );
+    l = l.replace( "\x02", "" );
+    l = l.replace( "\x03", "" );
+    l = l.replace( "\x04", "" );
+    l = l.replace( "\x07", "" );
+    l = l.replace( "\x08", "" );
+    l = l.replace( "\p{C}", "");
+    l = l.replace( "\+\<", "" );
+    l = l.replace( "⟪", "" );
+    l = l.replace( "⟫", "" );
+    l = l.replace( "‹", "" );
+    l = l.replace( "›", "" );
+    l = l.replace( "<", "" );
+    l = l.replace( ">", "" );
+    l = l.replace( "0", "" );
+    //l = l.replace( " +", " " ); // garder les marqueurs de fin d'énoncé
+    return l;
+};
+
 var shiftSize = 3;
 
 function nolines(s) {
