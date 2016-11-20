@@ -53,7 +53,7 @@ system.call.chaToTei = function(fname, teiname, datafrom, callback) {
 system.call.teiToCha = function(teiname, destname, datafrom, callback) {
     if (teiconvert.server === 'php')
         $.post(system.address,
-            {from: teiname, to: destname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToClan', extin: '.tei_corpo.xml', extout: '.cha'} )
+            {from: teiname, to: destname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToClan -stdevent', extin: '.tei_corpo.xml', extout: '.cha'} )
             .done( function(dataresult) {
                 callback(0, dataresult);
             })
