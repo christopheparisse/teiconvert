@@ -1183,9 +1183,9 @@ function getUsers() {
 
 teiConvertTools.teiToTxm = function(teiname, destname, datafrom, callback1) {
 	var params = " ";
-	var valCT = $('input:checkbox[name=cleanline]:checked').val();
+	var valCT = $('input:checkbox[name=rawline]:checked').val();
 	if (valCT === 'on')
-		params += ' -cleanline';
+		params += ' -rawline';
 	params += getUsers();
 	var ul = $('#tvul').children();
 	for (var i=0; i < ul.length; i++) {
@@ -1200,9 +1200,9 @@ teiConvertTools.teiToTxm = function(teiname, destname, datafrom, callback1) {
 
 teiConvertTools.teiToLexico = function(teiname, destname, datafrom, callback1) {
 	var params = [];
-	var valCT = $('input:checkbox[name=cleanline]:checked').val();
+	var valCT = $('input:checkbox[name=rawline]:checked').val();
 	if (valCT === 'on')
-		params += ' -cleanline';
+		params += ' -rawline';
 	var valSec = $('input:checkbox[name=sectionlex]:checked').val();
 	if (valSec === 'on')
 		params += ' -section';

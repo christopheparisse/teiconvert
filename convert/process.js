@@ -161,8 +161,8 @@ teiconvert.getOptions = function() {
     else
         radios.prop('checked', false);
 
-    radios = $('input:checkbox[name=cleanline]');
-    params = localStorage.getItem('paramscleanline');
+    radios = $('input:checkbox[name=rawline]');
+    params = localStorage.getItem('paramsrawline');
     if (params === 'on')
         radios.prop('checked', true);
     else
@@ -187,8 +187,8 @@ teiconvert.setOptions = function() {
     localStorage.setItem('paramsTxtNumber', val);
     val = $('input:checkbox[name=sectionlex]:checked').val();
     localStorage.setItem('paramsTxmSection', val);
-    val = $('input:checkbox[name=cleanline]:checked').val();
-    localStorage.setItem('paramsTxmcleanline', val);
+    val = $('input:checkbox[name=rawline]:checked').val();
+    localStorage.setItem('paramsTxmrawline', val);
 }
 
 teiconvert.setOptionsTxm = function() {
