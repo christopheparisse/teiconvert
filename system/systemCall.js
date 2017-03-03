@@ -20,10 +20,10 @@ system.call.trsToTei = function(fname, teiname, datafrom, callback) {
     }
 };
 
-system.call.teiToTrs = function(teiname, destname, datafrom, callback) {
+system.call.teiToTrs = function(teiname, destname, datafrom, params, callback) {
     if (teiconvert.server === 'php')
         $.post(system.address,
-            {from: teiname, to: destname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToTranscriber', extin: '.tei_corpo.xml', extout: '.trs'} )
+            {from: teiname, to: destname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToTranscriber', options: params, extin: '.tei_corpo.xml', extout: '.trs'} )
             .done( function(dataresult) {
                 callback(0, dataresult);
             })
@@ -50,10 +50,10 @@ system.call.chaToTei = function(fname, teiname, datafrom, callback) {
     }
 };
 
-system.call.teiToCha = function(teiname, destname, datafrom, callback) {
+system.call.teiToCha = function(teiname, destname, datafrom, params, callback) {
     if (teiconvert.server === 'php')
         $.post(system.address,
-            {from: teiname, to: destname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToClan -stdevent', extin: '.tei_corpo.xml', extout: '.cha'} )
+            {from: teiname, to: destname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToClan -stdevent', options: params, extin: '.tei_corpo.xml', extout: '.cha'} )
             .done( function(dataresult) {
                 callback(0, dataresult);
             })
@@ -87,7 +87,7 @@ system.call.textgridToTei = function(fname, teiname, datafrom, params, callback)
     }
 };
 
-system.call.teiToTextgrid = function(fname, teiname, datafrom, callback) {
+system.call.teiToTextgrid = function(fname, teiname, datafrom, params, callback) {
     if (teiconvert.server === 'php') {
 /*        var dataView = new DataView(datafrom);
         var bytesArray = new Uint8Array(dataView.byteLength);
@@ -96,7 +96,7 @@ system.call.teiToTextgrid = function(fname, teiname, datafrom, callback) {
         }
 */
         $.post(system.address,
-            {from: fname, to: teiname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToPraat', extin: '.tei_corpo.xml', extout: '.textgrid'} )
+            {from: fname, to: teiname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToPraat', options: params, extin: '.tei_corpo.xml', extout: '.textgrid'} )
             .done( function(dataresult) {
                 callback(0, dataresult);
             })
@@ -124,10 +124,10 @@ system.call.eafToTei = function(fname, teiname, datafrom, callback) {
     }
 };
 
-system.call.teiToEaf = function(fname, teiname, datafrom, callback) {
+system.call.teiToEaf = function(fname, teiname, datafrom, params, callback) {
     if (teiconvert.server === 'php')
         $.post(system.address,
-            {from: fname, to: teiname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToElan', extin: '.tei_corpo.xml', extout: '.eaf'} )
+            {from: fname, to: teiname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToElan', options: params, extin: '.tei_corpo.xml', extout: '.eaf'} )
             .done( function(dataresult) {
                 callback(0, dataresult);
             })

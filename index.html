@@ -149,6 +149,7 @@
     <input type="radio" name="ajoutsuppr" id="ajoutsuppr" value="ajout" checked>Conserver ces locuteurs/champs dans la sortie<br/>
     <input type="radio" name="ajoutsuppr" id="ajoutsuppr" value="suppr">Supprimer ces locuteurs/champs de la sortie<br/>
     Valeur du locuteur ou du champ (caractères génériques acceptés) <input type="text" name="ajoutsupprname" id="ajoutsupprname"><br/>
+    <input type="checkbox" name="rawline">Supprimer les marqueurs spécifiques de l'oral<br />
 </div>
 <div id="paramxlsx" class="param" onchange="teiconvert.setOptions();">
     <input type="number" name="digitsxlsx" min="0" max="15" id="digitsxlsx"> Nombre de décimales pour les temps<br/>
@@ -195,7 +196,6 @@
     <button onclick="teiconvert.setOptionsTxm();">Ajouter un champ type/valeur</button> - Type:<input type="text" id="tvtype" value=""> Valeur:<input type="text" id="tvvaleur" value=""><br />
     <div id="tvlist"><ul id="tvul"></ul></div>
     <input type="checkbox" name="sectionlex">Ajoute un indicateur de section en fin de chaque énoncé (pour lexico/le trameur)<br />
-    <input type="checkbox" name="rawline">Supprimer les marqueurs spécifiques de l'oral<br />
 </div>
 <br />
 <!-- <b>Fichier source (TRS/CHA/TEXTGRID/EAF/TXT/DOCX/XLSX/CSV)</b><br /> -->
@@ -224,7 +224,7 @@
   L'export Excel option "une ligne par énoncé" permet de faire jouer les alignements vidéos directement sous Excel. Pour cela, faire l'export puis insérer par copier-coller les lignes Excel dans le fichier modèle téléchargeable
     <a href="http://ct3.ortolang.fr/teiconvert/modele-video.xlsm"> ici</a>. Attention il faut disposer une installation de VLC <a href="http://www.videolan.org/vlc/">Téléchargement de VLC</a>. Les vidéos se lancent sous MAC par les touches Alt+Cmd+W et sous PC par les touches Shift+Ctrl+W
 </p>
-<p id="footer">Version du 06-01-2017 - Licence <a href="http://creativecommons.org/licenses/by/3.0/">CC+BY</a>
+<p id="footer">Version du 28-02-2017 - Licence <a href="http://creativecommons.org/licenses/by/3.0/">CC+BY</a>
  et <a href="http://www.opensource.org/licenses/BSD-2-Clause">BSD 2</a>
  - Auteurs: Christophe Parisse et Myriam Majdoub</p>
 <p id="messages"></p>

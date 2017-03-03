@@ -330,6 +330,8 @@ teiconvert.process_in = function(fname, datafrom, teiname, callback) {
 };
 
 teiconvert.process_out = function(teiname, datafrom, destname, callback) {
+        var params;
+        var valCT;
         document.body.style.cursor = 'wait';
         $('#resultinfo').text('En cours de traitement...').css('background','#FF0');
         function callback1(err, data) {
@@ -337,22 +339,27 @@ teiconvert.process_out = function(teiname, datafrom, destname, callback) {
             $('#resultinfo').text('Résultats').css('background','#FFF');
             callback(err, data);
         }
+        params = " ";
+        valCT = $('input:checkbox[name=rawline]:checked').val();
+        if (valCT === 'on')
+            params += ' -rawline';
+        params += getUsers();
         switch (teiconvert.fileFormat(destname)) {
             case '.txt':
                 var result = teiConvertTools.teiToText(datafrom);
                 callback1(0, result);
                 break;
             case '.trs':
-                system.call.teiToTrs(teiname, destname, datafrom, callback1);
+                system.call.teiToTrs(teiname, destname, datafrom, params, callback1);
                 break;
             case '.cha':
-                system.call.teiToCha(teiname, destname, datafrom, callback1);
+                system.call.teiToCha(teiname, destname, datafrom, params, callback1);
                 break;
             case '.eaf':
-                system.call.teiToEaf(teiname, destname, datafrom, callback1);
+                system.call.teiToEaf(teiname, destname, datafrom, params, callback1);
                 break;
             case '.textgrid':
-                system.call.teiToTextgrid(teiname, destname, datafrom, callback1);
+                system.call.teiToTextgrid(teiname, destname, datafrom, params, callback1);
                 break;
             case '.docx':
                 result = teiConvertTools.teiToDocx(datafrom);
