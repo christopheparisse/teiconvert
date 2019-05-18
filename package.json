@@ -1,0 +1,28 @@
+{
+  "name": "basicwindow",
+  "version": "0.6.0",
+  "description": "basic fixed nav bootstrap window for ct3.ortolang.fr website",
+  "main": "basic.html",
+  "scripts": {
+    "gulp": "gulp all",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dist": "sg.sh"
+  },
+  "keywords": [
+    "basic",
+    "nav",
+    "fixed",
+    "bootstrap"
+  ],
+  "author": "Christophe Parisse",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-html-tag-include": "^1.0.1",
+    "gulp-rename": "^1.4.0",
+    "run-sequence": "^2.2.1"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
+}

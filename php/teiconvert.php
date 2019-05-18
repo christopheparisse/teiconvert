@@ -1,6 +1,6 @@
 <?php
 
-$conversions = "java -cp \"../system/conversions.jar\"";
+$conversions = "java -cp \"../system/teicorpo.jar\"";
 
 $infile = $_POST["from"];
 $outfile = $_POST["to"];

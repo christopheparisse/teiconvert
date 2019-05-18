@@ -16,7 +16,7 @@ system.call.trsToTei = function(fname, teiname, datafrom, callback) {
                 callback(1, 'Erreur de conversion depuis Transcriber (trs) (serveur distant) ' + mess);
             });
     else if (teiconvert.server === 'electron') {
-        // java -cp conversions.jar fr.ortolang.teicorpo.TranscriberToTEI -i fname -o teiname
+        // java -cp teicorpo.jar fr.ortolang.teicorpo.TranscriberToTEI -i fname -o teiname
     }
 };
 
@@ -31,7 +31,7 @@ system.call.teiToTrs = function(teiname, destname, datafrom, params, callback) {
                 callback(1, 'Erreur de conversion vers TEI (serveur distant) ' + mess);
             });
     else if (teiconvert.server === 'electron') {
-        // java -cp conversions.jar fr.ortolang.teicorpo.TeiToTranscriber -i fname -o teiname
+        // java -cp teicorpo.jar fr.ortolang.teicorpo.TeiToTranscriber -i fname -o teiname
     }
 };
 
@@ -46,7 +46,22 @@ system.call.chaToTei = function(fname, teiname, datafrom, callback) {
                 callback(1, 'Erreur de conversion depuis CLAN (chat) (serveur distant) ' + mess);
             });
     else if (teiconvert.server === 'electron') {
-        // java -cp conversions.jar fr.ortolang.teicorpo.ChatToTEI -i fname -o teiname
+        // java -cp teicorpo.jar fr.ortolang.teicorpo.ChatToTEI -i fname -o teiname
+    }
+};
+
+system.call.srtToTei = function(fname, teiname, datafrom, callback) {
+    if (teiconvert.server === 'php')
+        $.post(system.address,
+            {from: fname, to: teiname, data: datafrom, cmd: 'fr.ortolang.teicorpo.ClanToTei', options: ' -from srt ', extin: '.cha', extout: '.tei_corpo.xml'} )
+            .done( function(dataresult) {
+                callback(0, dataresult);
+            })
+            .fail( function(mess) {
+                callback(1, 'Erreur de conversion depuis CLAN (chat) (serveur distant) ' + mess);
+            });
+    else if (teiconvert.server === 'electron') {
+        // java -cp teicorpo.jar fr.ortolang.teicorpo.ChatToTEI -i fname -o teiname
     }
 };
 
@@ -61,7 +76,7 @@ system.call.teiToCha = function(teiname, destname, datafrom, params, callback) {
                 callback(1, 'Erreur de conversion vers TEI (serveur distant) ' + mess);
             });
     else if (teiconvert.server === 'electron') {
-        // java -cp conversions.jar fr.ortolang.teicorpo.TeiToChat -i fname -o teiname
+        // java -cp teicorpo.jar fr.ortolang.teicorpo.TeiToChat -i fname -o teiname
     }
 };
 
@@ -83,7 +98,7 @@ system.call.textgridToTei = function(fname, teiname, datafrom, params, callback)
             });
     }
     else if (teiconvert.server === 'electron') {
-        // java -cp conversions.jar fr.ortolang.teicorpo.PraatToTEI -i fname -o teiname
+        // java -cp teicorpo.jar fr.ortolang.teicorpo.PraatToTEI -i fname -o teiname
     }
 };
 
@@ -105,7 +120,7 @@ system.call.teiToTextgrid = function(fname, teiname, datafrom, params, callback)
             });
     }
     else if (teiconvert.server === 'electron') {
-        // java -cp conversions.jar fr.ortolang.teicorpo.PraatToTEI -i fname -o teiname
+        // java -cp teicorpo.jar fr.ortolang.teicorpo.PraatToTEI -i fname -o teiname
     }
 };
 
@@ -120,7 +135,7 @@ system.call.eafToTei = function(fname, teiname, datafrom, callback) {
                 callback(1, 'Erreur de conversion depuis ELAN (eaf) (serveur distant) ' + mess);
             });
     else if (teiconvert.server === 'electron') {
-        // java -cp conversions.jar fr.ortolang.teicorpo.ElanToTEI -i fname -o teiname
+        // java -cp teicorpo.jar fr.ortolang.teicorpo.ElanToTEI -i fname -o teiname
     }
 };
 
@@ -135,7 +150,7 @@ system.call.teiToEaf = function(fname, teiname, datafrom, params, callback) {
                 callback(1, 'Erreur de conversion vers ELAN (eaf) (serveur distant) ' + mess);
             });
     else if (teiconvert.server === 'electron') {
-        // java -cp conversions.jar fr.ortolang.teicorpo.ElanToTEI -i fname -o teiname
+        // java -cp teicorpo.jar fr.ortolang.teicorpo.ElanToTEI -i fname -o teiname
     }
 };
 
@@ -152,7 +167,7 @@ system.call.teiToTxm = function(fname, teiname, datafrom, params, callback) {
             });
     }
     else if (teiconvert.server === 'electron') {
-        // java -cp conversions.jar fr.ortolang.teicorpo.PraatToTEI -i fname -o teiname
+        // java -cp teicorpo.jar fr.ortolang.teicorpo.PraatToTEI -i fname -o teiname
     }
 };
 
@@ -169,6 +184,6 @@ system.call.teiToLexico = function(fname, teiname, datafrom, params, callback) {
             });
     }
     else if (teiconvert.server === 'electron') {
-        // java -cp conversions.jar fr.ortolang.teicorpo.PraatToTEI -i fname -o teiname
+        // java -cp teicorpo.jar fr.ortolang.teicorpo.PraatToTEI -i fname -o teiname
     }
 };

@@ -1010,6 +1010,7 @@ teiConvertTools.teiToText = function(data) {
 
 teiConvertTools.teiToDocx = function(data, format) {
 	var format = $('input:radio[name=paramdocx]:checked').val();
+	if (!format) format = ";tab;time0;";
 	var digits = $('#digitsdocx').val();
 	if (!digits || digits<0 || digits>15) digits = 0;
 	var parser = new DOMParser();

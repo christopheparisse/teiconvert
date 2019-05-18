@@ -15,7 +15,7 @@ teiconvert.SYNC_FILES = '|.textgrid|';
 teiconvert.RAWTEXT_FILES = '|.textgrid|';
 teiconvert.BINARY_FILES = '|.docx|.xlsx|';
 teiconvert.EXTENSION = '.tei_corpo.xml';
-teiconvert.TEXT_FILES = '|' + teiconvert.EXTENSION + '|.lexico.txt|.txm.xml|.teiml|.trjs|.xml|.cha|.eaf|.exb|.txt|.csv|.textgrid|.trs|';
+teiconvert.TEXT_FILES = '|' + teiconvert.EXTENSION + '|.lexico.txt|.txm.xml|.teiml|.trjs|.xml|.cha|.eaf|.exb|.txt|.srt|.csv|.textgrid|.trs|';
 teiconvert.XML_FILES = '|' + teiconvert.EXTENSION + '|.teiml|.trjs|.xml|.trs|.eaf|.exb|';
 
 teiconvert.server = 'php';
@@ -73,6 +73,7 @@ teiconvert.dest = function () {
     if (val === 'docx') return '.docx';
     if (val === 'xlsx') return '.xlsx';
     if (val === 'txt') return '.txt';
+    if (val === 'srt') return '.srt';
     if (val === 'csv') return '.csv';
     if (val === 'txm') return '.txm.xml';
     if (val === 'lexico') return '.lexico.txt';
@@ -315,6 +316,9 @@ teiconvert.process_in = function(fname, datafrom, teiname, callback) {
                 break;
             case '.cha':
                 system.call.chaToTei(fname, teiname, datafrom, callback1);
+                break;
+            case '.srt':
+                system.call.srtToTei(fname, teiname, datafrom, callback1);
                 break;
             case '.eaf':
                 system.call.eafToTei(fname, teiname, datafrom, callback1);

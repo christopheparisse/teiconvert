@@ -1,0 +1,104 @@
+#drop{
+	border:2px dashed #bbb;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	padding: 10px;
+	margin: 10px;
+	text-align:center;
+	font:20pt bold,"Vollkorn";color:#888
+}
+#result {
+	border: 2px solid #555;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	margin-top: 5px;
+	padding:10px;
+}
+#footer {
+	font-size: small;
+}
+#bandeau {
+    background: #aaa;
+    width:100%;
+    text-align:center;
+    font-size: large;
+}
+#dest {
+	border: 2px solid #222;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	padding:10px;
+}
+#source {
+	border: 1px solid #00F;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	padding:10px;
+}
+#choixdest {
+    font-size: 130%;
+    font-weight: bold;
+}
+#choixsource {
+    font-size: 130%;
+    font-weight: bold;
+}
+.param {
+    display: none;
+	border:1px solid #444;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	margin-top: 5px;
+	padding:10px;
+}
+#praatajoutrelation {
+    background: #28F;
+    height: 2em;
+}
+#praatgo {
+    background: #28F;
+    height: 2em;
+    margin-top: 10px;
+}
+#praatrules p {
+    margin: 0;
+}
+#praatrules p .rl, .rm, .rd {
+    margin: 0px 5px 0px 5px;
+}
+#praatrules p .rm {
+    font-style: italic;
+}
+#praatresp {
+    margin-top: 10px;
+}
+#paramtall {
+    display: block;
+}
+#tvlist {
+    display: none;
+}
+#spantvtype {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#spantvvaleur {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.btn {
+	background: #dddddd;
+	-webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+	font-family: Arial;
+  color: #111111;
+  font-size: 27px;
+  padding: 19px;
+  text-decoration: none;
+}
