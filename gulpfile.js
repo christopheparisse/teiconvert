@@ -17,15 +17,21 @@ gulp.task('src', function () {
 
 gulp.task('basic', function () {
   // construct index.html
-   return gulp.src(['./basic.html', './body-french.html', './body-english.html'])
+   return gulp.src(['./basic-fr.html', './basic-en.html', './body-french.html', './body-english.html'])
        .pipe(include())
        .pipe(gulp.dest('./temp'));
 });
 
-gulp.task('index', function () {
-  return gulp.src('./temp/basic.html')
-    .pipe(rename('./index.html'))
+gulp.task('index-en', function () {
+  return gulp.src('./temp/basic-en.html')
+    .pipe(rename('./index-en.html'))
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('all', gulp.series('basic', 'index'));
+gulp.task('index-fr', function () {
+    return gulp.src('./temp/basic-fr.html')
+      .pipe(rename('./index-fr.html'))
+      .pipe(gulp.dest('.'));
+  });
+  
+gulp.task('all', gulp.series('basic', 'index-fr', 'index-en'));

@@ -990,7 +990,8 @@ teiConvertTools.teiToText = function(data) {
 	var s = ''; // future result
 	var nb = 0;
 	for (var i=0; i<corpus.length; i++) {
-		if (nomloc != '') {
+        if (style === 'raw' && corpus[i].type !== 'loc') continue; // for raw, print only main lines
+		if (nomloc !== '') {
 			if (ajout === 'ajout' && nomloc.indexOf(corpus[i].loc.trim()) < 0)
 				continue;
 			if (ajout === 'suppr' && nomloc.indexOf(corpus[i].loc.trim()) >= 0)

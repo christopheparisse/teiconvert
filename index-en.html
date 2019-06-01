@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="logo.ico">
+
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/filesaver.js"></script>
+    <script src="lib/html-docx.js"></script>
+    <script src="lib/jszip.js"></script>
+    <script src="lib/xlsx_array.js"></script>
+    <script src="lib/encoder.js"></script>
+    <script src="trjs/dataload.js"></script>
+    <script src="trjs/data.js"></script>
+    <script src="trjs/templates.js"></script>
+    <script src="trjs/utils.js"></script>
+    <script src="convert/process.js"></script>
+    <script src="convert/teiconverttools.js"></script>
+    <script src="convert/teiexportxlsx.js"></script>
+    <script src="convert/teidocx.js"></script>
+    <script src="system/systemLocal.js"></script>
+    <script src="system/systemCall.js"></script>
+    <script src="lib/popper.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+
+    <title>TEICONVERT / Conversions for spoken language corpora and TEI</title>
+
+    <link href="teiconvert.css" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="lib/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="navbar-top-fixed.css" rel="stylesheet">
+    <script>
+      function changeLanguage(lg) {
+        if (lg === 'fr') {
+            window.location.href = "index-fr.html";
+        } 
+        /*
+            document.getElementById('NAV.LINKS').textContent = "Links";
+            document.getElementById('NAV.LANGUAGE').textContent = "Languages";
+            document.getElementById('content-english').style.display = "block";
+            document.getElementById('content-french').style.display = "none";
+        */
+      }
+    </script>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <img src="logo-ortolang-white.png" height=50px></img>
+      <a class="navbar-brand" href="#">Ortolang Nanterre/Orléans - TEICONVERT</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a href="http://www.tei-c.org/index.xml" class="nav-link"><img src="tei.png" height="40px" width="50" /></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false"><span id="NAV.LINKS">Links</span></a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="https://www.ortolang.fr">ORTOLANG</a>
+              <a class="dropdown-item" href="http://ct3.ortolang.fr/teimeta/">TEIMETA</a>
+              <a class="dropdown-item" href="http://ct3.ortolang.fr/teiconvert/">TEICONVERT</a>
+              <a class="dropdown-item" href="http://ct3.ortolang.fr/teimeta-doc/">TEIMETA Download</a>
+              <a class="dropdown-item" href="http://ct3.ortolang.fr/tei-corpo/">TEICORPO Download</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="changeLanguage('fr')" id="dropdown02"
+              aria-haspopup="true" aria-expanded="false"><span id="NAV.LANGUAGE">Français</span></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main" class="container">
+      <div id="content-english" class="lead">
+        <h1>TEI format conversions for spoken and multimodal data</h1>
+        <div id="dest">
+        <!-- <b>Format Destination (TRS/CHA/TXT/DOCX/XLSX/CSV)</b><br /> -->
+        <span id="choixdest">1) Choose the destination format</span><br/>
+        <input type="radio" name="format" value="tei" onchange="teiconvert.paramsOutDisp();" checked> TEI (xml / tei_corpo.xml / teiml / trjs)<br />
+        <input type="radio" name="format" value="trs" onchange="teiconvert.paramsOutDisp();"> TRS (transcriber)<br />
+        <input type="radio" name="format" value="cha" onchange="teiconvert.paramsOutDisp();"> CHA (chat - childes)<br />
+        <input type="radio" name="format" value="txt" onchange="teiconvert.paramsOutDisp();"> TXT (texte - utf8)<br />
+        <input type="radio" name="format" value="docx" onchange="teiconvert.paramsOutDisp();"> DOCX (microsoft word)<br />
+        <input type="radio" name="format" value="xlsx" onchange="teiconvert.paramsOutDisp();"> XLSX (microsoft excel)<br />
+        <input type="radio" name="format" value="csv" onchange="teiconvert.paramsOutDisp();"> CSV (tableurs)<br />
+        <input type="radio" name="format" value="textgrid" onchange="teiconvert.paramsOutDisp();"> TEXTGRID (praat)<br />
+        <input type="radio" name="format" value="eaf" onchange="teiconvert.paramsOutDisp();"> EAF (elan)<br />
+        <input type="radio" name="format" value="txm" onchange="teiconvert.paramsOutDisp();"> TXM (xml/w)<br />
+        <input type="radio" name="format" value="lexico" onchange="teiconvert.paramsOutDisp();"> Lexico/Le Trameur (.txt)<br />
+        <!--
+        <input type="radio" name="format" value="csv" > CSV (comma separated values - utf8)<br />
+        <input type="radio" name="format" value="exb"> EXB<br />
+        -->
+        </div>
+        <div id="paramtall" class="param" onchange="teiconvert.setOptions();">
+            <!--
+        	     :-a name : le locuteur/champ name est produit en sortie (caractères génériques acceptés)
+        	     :-s name : le locuteur/champ name est suprimé de la sortie (caractères génériques acceptés)
+            -->
+            <input type="radio" name="ajoutsuppr" id="ajoutsuppr" value="ajout" checked>Put these tiers in the output<br/>
+            <input type="radio" name="ajoutsuppr" id="ajoutsuppr" value="suppr">Remove these tiers from the output<br/>
+            Name of tiers (wildcard characters can be used) <input type="text" name="ajoutsupprname" id="ajoutsupprname"><br/>
+            <input type="checkbox" name="rawline">Remove specific marks for spoken language<br />
+        </div>
+        <div id="paramxlsx" class="param" onchange="teiconvert.setOptions();">
+            <input type="number" name="digitsxlsx" min="0" max="15" id="digitsxlsx"> Number of decimal digits for time values<br/>
+            <hr/>
+            <input type="radio" name="paramxlsx" value=";aligned;" checked>One line per utterance + tiers/sub-tiers to the right<br />
+            <input type="radio" name="paramxlsx" value=";independent;" checked>One line per utterance, tiers/sub-tiers below, organized by tier names<br />
+            <input type="radio" name="paramxlsx" value=";database;" checked>One line per utterance, tiers/dépendances below, one element per line<br />
+        </div>
+        <div id="paramdocx" class="param" onchange="teiconvert.setOptions();">
+            <input type="number" name="digitsdocx" min="0" max="15" id="digitsdocx"> Number of decimal digits for time values<br/>
+        		<!--
+            <hr/>
+            <input type="radio" name="paramdocx" value=";table;time0;" checked>Format texte: n° - Loc - Enoncé (version tableau)<br />
+            <input type="radio" name="paramdocx" value=";table;time1;" checked>Format texte: n° - Loc - Enoncé - Temps début (version tableau)<br />
+            <input type="radio" name="paramdocx" value=";table;time2;" checked>Format texte: n° - Loc - Enoncé - Temps début et fin (version tableau)<br />
+        	-->
+            <hr/>
+        	<input type="radio" name="paramdocx" value=";tab;time0;">Text format: n° - Speaker - Utterance (tabular version)<br />
+        	<input type="radio" name="paramdocx" value=";tab;time1;">Text format: Start time - Speaker - Utterance - (tabular version)<br />
+        	<input type="radio" name="paramdocx" value=";tab;time2;">Text format: Start and end time - Speaker - Utterance (tabular version)<br />
+        	<input type="radio" name="paramdocx" value=";tab;time2;header;">Text format: Start and end time - Speaker - Utterance (tabular version) + Header (for orthographic checking)<br />
+            <hr/>
+            <input type="radio" name="paramdocx" value=";tab;overlap;utt;">Overlapping format: Speaker - Utterance<br />
+            <input type="radio" name="paramdocx" value=";tab;overlap;turn;">Overlapping format: Speaker - Turn<br />
+        </div>
+        <div id="paramtxt" class="param" onchange="teiconvert.setOptions();">
+            <input type="number" name="digitstxt" min="0" max="15" id="digitstxt"> Number of decimal digits for time values<br/>
+            <hr/>
+            <input type="radio" name="paramtxt" value="bloc" checked>Format per block: Speaker - Time - Utterance<br />
+            <input type="radio" name="paramtxt" value="line">Format per line: n° - Speaker - Utterance - Time<br />
+            <input type="radio" name="paramtxt" value="raw">Text without mark<br />
+        </div>
+        <div id="paramxlsx" class="param" onchange="teiconvert.setOptions();">
+            <input type="number" name="digitsxlsx" min="0" max="15" id="digitsxlsx"> Number of decimal digits for time values<br/>
+            <hr/>
+            <!--
+            <input type="radio" name="paramxlsx" value="std" checked>Format Loc - Temps - Enoncé<br />
+            <input type="radio" name="paramxlsx" value="macro">Format Macro Media + Loc - Temps - Enoncé<br />
+            -->
+        </div>
+        <div id="paramtxmlexico" class="param" onchange="teiconvert.setOptions();">
+            <!--
+        	     :-tv "type:valeur" : un champ type:valeur est ajouté dans les <w> de txm ou lexico ou le trameur
+        	     :-section : ajoute un indicateur de section en fin de chaque énoncé (pour lexico/le trameur)
+            -->
+            <button onclick="teiconvert.setOptionsTxm();">Add a field type/value</button> - Type:<input type="text" id="tvtype" value=""> Valeur:<input type="text" id="tvvaleur" value=""><br />
+            <div id="tvlist"><ul id="tvul"></ul></div>
+            <input type="checkbox" name="sectionlex">Add a marker for section at the end of all utterances (for lexico/le trameur)<br />
+        </div>
+        <br />
+        <!-- <b>Fichier source (TRS/CHA/TEXTGRID/EAF/TXT/DOCX/XLSX/CSV)</b><br /> -->
+        <div id="source">
+        <span id="choixsource"><b>2) Choose source file (extension: TRS/CHA/TEXTGRID/EAF/TXT/DOCX/XLSX)</b></span><br />
+        <div id="drop">Drag and drop one or more files</div>
+        <p><b>Or click here to select a file => </b>
+        <label for="fromf" class="btn">Select File(s)</label>
+        <input type="file" name="fromfile" id="fromf" style="visibility:hidden;" onchange="system.openLocalFile(event)" multiple placeholder="No file choosen."/></p>
+        <input type="checkbox" name="praatoptions" checked onclick="teiconvert.allowTextgridOptions();"/>Ask for parameters for praat files.<br />
+        </div>
+        <div id="paramspraat" class="param">
+            <input type="checkbox" name="praatskip" checked onclick="teiconvert.skipTextgridOptions();"/>If more than one file, use the same parameters for all files.<br />
+            <hr />
+            <span>Choice of relation for </span><span id="fnpraat"></span>
+            <div id="praatlist" class="param"></div>
+            <div id="praatresp"><span>Relations choosen</span></div>
+            <div id="praatrules" class="param"></div>
+            <input id="praatgo" type="button" name="praatgo" onclick="teiconvert.actionTextGrid();" value="Start converting"/> <i>(parameter selection is not mandatory)</i>
+            <input type="button" name="praatreset" onclick="teiconvert.resetTextGrid();" value="Remove all parameters"/>
+        </div>
+        <br/><span id="resultinfo">Results</span> <span id="resultclear" onclick="$('#result').html('');">(Remove)</span><br />
+        <div><ul id="result"></ul></div>
+        <p>The TEI_CORPO format follows the proposals from the TEI Spoken ISO.
+          It matches fully the TEI standard.<br/>A java for batch computing and complementary functions
+          can be downloaded here <a href="http://ct3.ortolang.fr/tei-corpo/teicorpo.jar">ici</a>.
+          More informations are available <a href="http://ct3.ortolang.fr/tei-corpo">here</a>.<br/>
+          The Excel export option "one line per utterance" can be used to play linking video directly under Excel.
+          To do this, first export to Excel format, open the file and use copy and paste to insert the data in the downloadable Excel model
+          found <a href="http://ct3.ortolang.fr/teiconvert/modele-video.xlsm">here</a>.
+          Warning, you must have VLC installed <a href="http://www.videolan.org/vlc/">Downloading VLC</a>.
+          Vidéos can be started under MACOS using the keys Alt+Cmd+W and under PC using the keys Shift+Ctrl+W.
+          This can be adjusted by editing the Excel macros.
+        </p>
+        <p id="footer">31-05-2019 version 0.6.3 - Licence <a href="http://creativecommons.org/licenses/by/3.0/">CC+BY</a>
+         et <a href="http://www.opensource.org/licenses/BSD-2-Clause">BSD 2</a>
+         - Authors: Christophe Parisse and Myriam Majdoub</p>
+        <p id="messages"></p>
+        <script>
+        	system.initDrop();
+            teiconvert.getOptions();
+            teiconvert.paramsOutDisp();
+        </script>
+
+      </div>
+    </main>
+
+    <!-- Bootstrap core JavaScript
+    <script src="lib/jquery-slim.min.js"></script>
+    <script>window.jQuery</script>
+    <script src="lib/popper.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    -->
+  </body>
+</html>

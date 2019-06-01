@@ -26,7 +26,7 @@
     <script src="lib/popper.min.js"></script>
     <script src="lib/bootstrap.min.js"></script>
 
-    <title>TEICONVERT / Conversions corpus oraux et TEI</title>
+    <title>TEICONVERT / Conversions for spoken language corpora and TEI</title>
 
     <link href="teiconvert.css" rel="stylesheet">
 
@@ -38,16 +38,14 @@
     <script>
       function changeLanguage(lg) {
         if (lg === 'fr') {
-            document.getElementById('NAV.LINKS').textContent = "Liens";
-            document.getElementById('NAV.LANGUAGE').textContent = "Langues";
-            document.getElementById('content-english').style.display = "none";
-            document.getElementById('content-french').style.display = "block";
-        } else {
+            window.location.href = "index-fr.html";
+        } 
+        /*
             document.getElementById('NAV.LINKS').textContent = "Links";
             document.getElementById('NAV.LANGUAGE').textContent = "Languages";
             document.getElementById('content-english').style.display = "block";
             document.getElementById('content-french').style.display = "none";
-        }
+        */
       }
     </script>
   </head>
@@ -76,13 +74,9 @@
               <a class="dropdown-item" href="http://ct3.ortolang.fr/tei-corpo/">TEICORPO Download</a>
             </div>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false"><span id="NAV.LANGUAGE">Languages</span></a>
-            <div class="dropdown-menu" aria-labelledby="dropdown02">
-              <a class="dropdown-item" href="#" onclick="changeLanguage('en')"><span id="NAV.LANGUAGE.ENGLISH">English</span></a>
-              <a class="dropdown-item" href="#" onclick="changeLanguage('fr')"><span id="NAV.LANGUAGE.FRENCH">Français</span></a>
-            </div>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="changeLanguage('fr')" id="dropdown02"
+              aria-haspopup="true" aria-expanded="false"><span id="NAV.LANGUAGE">Français</span></a>
           </li>
         </ul>
       </div>
@@ -91,9 +85,6 @@
     <main role="main" class="container">
       <div id="content-english" class="lead">
         <include src="body-english.html"></include>
-      </div>
-      <div id="content-french" class="lead" style="display:none">
-        <include src="body-french.html"></include>
       </div>
     </main>
 
