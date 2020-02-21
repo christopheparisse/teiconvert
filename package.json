@@ -1,5 +1,5 @@
 {
-  "name": "basicwindow",
+  "name": "teiconvert",
   "version": "0.6.4",
   "description": "basic fixed nav bootstrap window for ct3.ortolang.fr website",
   "main": "basic.html",
