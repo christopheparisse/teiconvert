@@ -1,5 +1,5 @@
 # teiconvert
-Html, javascript and php user interface of tei-corpo java software.
+Html, javascript and php user interface of teicorpo java software.
 This handles parameters for conversion from Textgrid to TEI
 
 To use it:

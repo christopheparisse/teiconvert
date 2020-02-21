@@ -9,7 +9,7 @@ for (var a=0; a<arg._.length; a++) {
     if (p > 0)
         output = output.substring(0,p);
     output = output + '.tei_corpo.xml';
-    var cmds = ['-cp', '/home/cp/devlopt/devtranscriberjs/tools/teicorpo.jar', 'fr.ortolang.teicorpo.ClanToTei', '-i', input, '-o', output];
+    var cmds = ['-cp', '/devlopt/teicorpo/teicorpo.jar', 'fr.ortolang.teicorpo.ClanToTei', '-i', input, '-o', output];
     var jv = childproc.spawnSync('java', cmds);
     console.log(jv.stdout.toString());
 }
