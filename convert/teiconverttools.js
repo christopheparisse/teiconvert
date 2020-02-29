@@ -584,7 +584,7 @@ teiConvertTools.docxToTEI = function(data) {
 	}
 	// Output the data into a string
 	// the HEADER
-	var s = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n<!DOCTYPE TEI SYSTEM "http://ct3.ortolang.fr//tei_all.dtd">\n<TEI xmlns="http://www.tei-c.org/ns/1.0" version="0.9">\n';
+	var s = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n<!DOCTYPE TEI SYSTEM "http://vheborto-ct3.inist.fr//tei_all.dtd">\n<TEI xmlns="http://www.tei-c.org/ns/1.0" version="0.9">\n';
 	s += '<teiHeader>\n<fileDesc>\n<titleStmt>\n<title>' + 'conversion to word (TEI_CORPO)' + '</title>\n</titleStmt>\n';
 	s += '<publicationStmt>';
 	s += '</publicationStmt>\n';

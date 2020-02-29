@@ -1,7 +1,7 @@
 {
   "name": "teiconvert",
-  "version": "0.6.4",
-  "description": "basic fixed nav bootstrap window for ct3.ortolang.fr website",
+  "version": "0.6.9",
+  "description": "basic fixed nav bootstrap window for vheborto-ct3.inist.fr website",
   "main": "basic.html",
   "scripts": {
     "gulp": "gulp all",
