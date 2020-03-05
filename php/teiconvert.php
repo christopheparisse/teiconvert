@@ -24,8 +24,14 @@ echo "6: " . $extout . "<br/>";
 */
 
 date_default_timezone_set('Europe/Paris');
+
+$file_temp_in = "../dataconvert/" . $infile . "--" . $extin;
+$file_temp_out = "../dataconvert/" . $outfile . "--" . $extout;
+
+/*
 $file_temp_in = "../dataconvert/" . $infile . "--" . date('d-m-Y-h-i-s') . $extin;
 $file_temp_out = "../dataconvert/" . $outfile . "--" . date('d-m-Y-h-i-s') . $extout;
+*/
 
 /*
 if ($extin === ".textgrid") {
