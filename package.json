@@ -1,12 +1,12 @@
 {
   "name": "teiconvert",
   "version": "0.6.9",
-  "description": "basic fixed nav bootstrap window for vheborto-ct3.inist.fr website",
+  "description": "basic fixed nav bootstrap window for ct3.ortolang.fr website",
   "main": "basic.html",
   "scripts": {
     "gulp": "gulp all",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dist": "sg.sh"
+    "dist": "ct3.sh"
   },
   "keywords": [
     "basic",
