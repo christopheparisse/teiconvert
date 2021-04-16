@@ -1,7 +1,7 @@
 {
   "name": "teiconvert",
-  "version": "0.6.9",
-  "description": "basic fixed nav bootstrap window for ct3.ortolang.fr website",
+  "version": "0.7.0",
+  "description": "create web service API",
   "main": "basic.html",
   "scripts": {
     "gulp": "gulp all",
