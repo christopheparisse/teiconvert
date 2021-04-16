@@ -4,16 +4,22 @@
 
 system.call = {};
 system.address = 'php/teiconvert.php';
+system.addressapi = 'php/teicorpoapi.php';
 
 system.call.trsToTei = function(fname, teiname, datafrom, callback) {
     if (teiconvert.server === 'php')
-        $.post(system.address,
-            {from: fname, to: teiname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TranscriberToTei', extin: '.trs', extout: '.tei_corpo.xml'} )
+        $.post(system.addressapi,
+            // {from: fname, to: teiname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TranscriberToTei', extin: '.trs', extout: '.tei_corpo.xml'} )
+            { from: "trs", to: "tei", data: datafrom, fileinfo: fname } )
             .done( function(dataresult) {
-                callback(0, dataresult);
+                console.log(typeof dataresult, dataresult);
+                dataapi = $.parseJSON( dataresult );
+                callback(0, dataapi.data);
             })
             .fail( function(mess) {
-                callback(1, 'Erreur de conversion depuis Transcriber (trs) (serveur distant) ' + mess);
+                console.log(typeof mess);
+                dataapi = $.parseJSON( mess );
+                callback(1, 'Erreur de conversion depuis Transcriber (trs) (serveur distant) ' + dataapi.error + ' ' + dataapi.output);
             });
     else if (teiconvert.server === 'electron') {
         // java -cp teicorpo.jar fr.ortolang.teicorpo.TranscriberToTEI -i fname -o teiname
@@ -22,13 +28,19 @@ system.call.trsToTei = function(fname, teiname, datafrom, callback) {
 
 system.call.teiToTrs = function(teiname, destname, datafrom, params, callback) {
     if (teiconvert.server === 'php')
-        $.post(system.address,
-            {from: teiname, to: destname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToTranscriber', options: params, extin: '.tei_corpo.xml', extout: '.trs'} )
+        $.post(system.addressapi,
+            // {from: teiname, to: destname, data: datafrom, cmd: 'fr.ortolang.teicorpo.TeiToTranscriber', options: params, extin: '.tei_corpo.xml', extout: '.trs'} )
+            { from: 'tei', to: 'trs', data: datafrom, fileinfo: teiname } )
             .done( function(dataresult) {
-                callback(0, dataresult);
+                console.log(typeof dataresult);
+                dataapi = $.parseJSON( dataresult );
+                callback(0, dataapi.data);
             })
             .fail( function(mess) {
-                callback(1, 'Erreur de conversion vers TEI (serveur distant) ' + mess);
+                console.log(typeof mess);
+                dataapi = $.parseJSON( mess );
+                callback(1, 'Erreur de conversion vers TEI (serveur distant) ' + dataapi.error + ' ' + dataapi.output);
+                // callback(1, 'Erreur de conversion vers TEI (serveur distant) ' + mess);
             });
     else if (teiconvert.server === 'electron') {
         // java -cp teicorpo.jar fr.ortolang.teicorpo.TeiToTranscriber -i fname -o teiname
@@ -40,6 +52,7 @@ system.call.chaToTei = function(fname, teiname, datafrom, callback) {
         $.post(system.address,
             {from: fname, to: teiname, data: datafrom, cmd: 'fr.ortolang.teicorpo.ClanToTei', extin: '.cha', extout: '.tei_corpo.xml'} )
             .done( function(dataresult) {
+                console.log(typeof dataresult, dataresult);
                 callback(0, dataresult);
             })
             .fail( function(mess) {

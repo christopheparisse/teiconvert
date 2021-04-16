@@ -1,0 +1,3 @@
+java -cp "C:/devlopt/teicorpo/teicorpo.jar" fr.ortolang.teicorpo.TeiCorpo  -from trs -to tei -i "ESLO1_ENT_001_C.trstmpin.data" -o "ESLO1_ENT_001_C.trstmpout.data"
+java -cp "C:/devlopt/teicorpo/teicorpo.jar" fr.ortolang.teicorpo.TeiCorpo  -from trs -to tei -i "ESLO1_ENT_001_C.trstmpin.data" -o "ESLO1_ENT_001_C.trstmpout.data"
+java -cp "C:/devlopt/teicorpo/teicorpo.jar" fr.ortolang.teicorpo.TeiCorpo  -from trs -to tei -i "ESLO1_ENT_001_C.trstmpin.data" -o "ESLO1_ENT_001_C.trstmpout.data"

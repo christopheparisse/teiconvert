@@ -17,12 +17,9 @@
   "author": "Christophe Parisse",
   "license": "ISC",
   "devDependencies": {
-    "gulp": "^4.0.2",
-    "gulp-html-tag-include": "^1.0.1",
-    "gulp-rename": "^1.4.0",
-    "run-sequence": "^2.2.1"
-  },
-  "dependencies": {
-    "minimist": "^1.2.0"
+    "gulp": "latest",
+    "gulp-html-tag-include": "latest",
+    "gulp-rename": "latest",
+    "run-sequence": "latest"
   }
 }
